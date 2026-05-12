@@ -79,15 +79,17 @@ class Enemy(Entity):
         if self.x <= 0 or self.x >= world_w - self.w:
             self._flip()
 
+        prev_bottom = self.y + self.h
+
         # Gravity + vertical
         self.vel_y = min(self.vel_y + GRAVITY, MAX_FALL)
         self.y += self.vel_y
 
-        # Platform collision
+        # Platform collision — só pousa se estava acima da plataforma
         on_ground = False
         er = self.get_rect()
         for plat in platforms:
-            if er.colliderect(plat) and self.vel_y > 0:
+            if er.colliderect(plat) and self.vel_y > 0 and prev_bottom <= plat.top + 4:
                 self.y = float(plat.top - self.h)
                 self.vel_y = 0.0
                 on_ground = True

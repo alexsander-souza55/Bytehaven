@@ -5,9 +5,6 @@ from code.Const import *
 import code.SoundFX as SoundFX
 
 from code.Paths import BASE as _BASE
-_GUNS = os.path.join(_BASE, "asset", "sprites",
-                     "free-guns-for-cyberpunk-characters-pixel-art",
-                     "1 Characters", "3 Cyborg")
 _MAIN = os.path.join(_BASE, "asset", "sprites",
                      "Free 3 Cyberpunk Sprites Pixel Art", "3 Cyborg")
 
@@ -27,9 +24,9 @@ class Player(Entity):
         self.death_done  = False
 
     def _load_sprites(self):
-        def s(folder, name):
+        def s(name):
             try:
-                return self.load_sheet(os.path.join(folder, name),
+                return self.load_sheet(os.path.join(_MAIN, name),
                                        P_FRAME, P_FRAME, P_SCALE)
             except Exception:
                 surf = pygame.Surface((P_FRAME * P_SCALE, P_FRAME * P_SCALE),
@@ -39,12 +36,12 @@ class Player(Entity):
                 return [surf]
 
         self.frames = {
-            "idle":   s(_GUNS, "Idle1.png"),
-            "run":    s(_GUNS, "Run1.png"),
-            "jump":   s(_GUNS, "Jump1.png"),
-            "attack": s(_MAIN, "Cyborg_attack1.png"),
-            "hurt":   s(_MAIN, "Cyborg_hurt.png"),
-            "death":  s(_MAIN, "Cyborg_death.png"),
+            "idle":   s("Cyborg_idle.png"),
+            "run":    s("Cyborg_run.png"),
+            "jump":   s("Cyborg_jump.png"),
+            "attack": s("Cyborg_attack1.png"),
+            "hurt":   s("Cyborg_hurt.png"),
+            "death":  s("Cyborg_death.png"),
         }
 
     # ------------------------------------------------------------------
@@ -73,19 +70,21 @@ class Player(Entity):
             self.on_ground = False
             SoundFX.play("jump")
 
-        # Gravity + move Y
+        prev_bottom = self.y + self.h
+
+        # Gravity + move
         self.vel_y = min(self.vel_y + GRAVITY, MAX_FALL)
         self.x += self.vel_x
         self.x = max(0.0, min(self.x, float(world_w - self.w)))
         self.y += self.vel_y
 
-        # Platform collision (Y only)
+        # Platform collision — só resolve em Y se o jogador estava acima da plataforma
         self.on_ground = False
         pr = self.get_rect()
         for plat in platforms:
             if pr.colliderect(plat):
-                if self.vel_y > 0:
-                    self.y = plat.top - self.h
+                if self.vel_y > 0 and prev_bottom <= plat.top + 4:
+                    self.y = float(plat.top - self.h)
                     self.vel_y = 0.0
                     self.on_ground = True
                 elif self.vel_y < 0:
