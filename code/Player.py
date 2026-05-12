@@ -70,6 +70,7 @@ class Player(Entity):
             self.on_ground = False
             SoundFX.play("jump")
 
+        prev_top    = self.y
         prev_bottom = self.y + self.h
 
         # Gravity + move
@@ -78,16 +79,18 @@ class Player(Entity):
         self.x = max(0.0, min(self.x, float(world_w - self.w)))
         self.y += self.vel_y
 
-        # Platform collision — só resolve em Y se o jogador estava acima da plataforma
+        # Colisão Y: só resolve se o jogador vinha do lado correto
         self.on_ground = False
         pr = self.get_rect()
         for plat in platforms:
             if pr.colliderect(plat):
                 if self.vel_y > 0 and prev_bottom <= plat.top + 4:
+                    # Caindo de cima → pousa no topo
                     self.y = float(plat.top - self.h)
                     self.vel_y = 0.0
                     self.on_ground = True
-                elif self.vel_y < 0:
+                elif self.vel_y < 0 and prev_top >= plat.bottom - 2:
+                    # Subindo de baixo → bate no teto
                     self.y = float(plat.bottom)
                     self.vel_y = 0.0
                 pr = self.get_rect()
