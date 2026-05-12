@@ -1,7 +1,7 @@
 import os
 import pygame
 
-_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from code.Paths import BASE as _BASE
 _sounds = {}
 
 

@@ -2,7 +2,7 @@ import os
 import pygame
 from code.Const import CYAN, RED
 
-_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from code.Paths import BASE as _BASE
 _BULLETS = os.path.join(_BASE, "asset", "sprites",
                          "free-guns-for-cyberpunk-characters-pixel-art",
                          "5 Bullets")

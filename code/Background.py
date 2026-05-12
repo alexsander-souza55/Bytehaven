@@ -2,7 +2,7 @@ import os
 import pygame
 from code.Const import WIDTH, HEIGHT
 
-_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from code.Paths import BASE as _BASE
 
 # Parallax speeds per layer (fraction of camera movement)
 _SPEEDS = [0.1, 0.3, 0.5]

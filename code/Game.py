@@ -7,7 +7,7 @@ from code.Level import Level
 from code.Score import Score
 import code.SoundFX as SoundFX
 
-_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from code.Paths import BASE as _BASE
 
 
 class Game:

@@ -2,8 +2,8 @@ import os
 import sqlite3
 from datetime import datetime
 
-_DB = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                   "bytehaven.db")
+from code.Paths import BASE as _BASE
+_DB = os.path.join(_BASE, "bytehaven.db")
 
 
 class DBProxy:
