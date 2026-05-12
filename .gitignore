@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.idea/
+.vscode/
+build/
+dist/
+venv/
+*.egg-info/
+
+# Bytehaven runtime files
+bytehaven.db
+*.zip
+BYTEHAVEN.egg-info/
